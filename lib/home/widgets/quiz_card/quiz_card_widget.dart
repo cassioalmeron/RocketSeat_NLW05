@@ -7,54 +7,60 @@ import 'package:flutter/material.dart';
 class QuizCardWidget extends StatelessWidget {
   final QuizModel quiz;
   late final double percent;
-  QuizCardWidget({Key? key, required this.quiz}) : super(key: key) {
+  final VoidCallback onTap;
+
+  QuizCardWidget({Key? key, required this.quiz, required this.onTap})
+      : super(key: key) {
     percent = quiz.questionsAnswered / quiz.questions.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          border: Border.fromBorderSide(BorderSide(color: AppColors.border)),
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            child: Image.asset(quiz.image),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            quiz.title,
-            style: AppTextStyles.heading,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Text(
-                  "${quiz.questionsAnswered}/${quiz.questions.length}",
-                  style: AppTextStyles.body11,
+    return GestureDetector(
+      onTap: this.onTap,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            border: Border.fromBorderSide(BorderSide(color: AppColors.border)),
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              child: Image.asset(quiz.image),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              quiz.title,
+              style: AppTextStyles.heading,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    "${quiz.questionsAnswered}/${quiz.questions.length}",
+                    style: AppTextStyles.body11,
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 4,
-                child: ProgressIndicatorWidget(
-                  value: percent,
-                ),
-              )
-            ],
-          )
-        ],
+                Expanded(
+                  flex: 4,
+                  child: ProgressIndicatorWidget(
+                    value: percent,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
